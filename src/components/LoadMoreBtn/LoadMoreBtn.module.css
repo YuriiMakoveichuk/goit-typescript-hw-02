@@ -1,0 +1,13 @@
+.btn {
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 250ms linear, border 250ms linear,
+    color 250ms linear;
+}
+
+.btn:hover,
+.btn:focus {
+  border: 2px solid #9df07f;
+  background-color: rgb(175, 168, 168);
+  color: #9df07f;
+}
