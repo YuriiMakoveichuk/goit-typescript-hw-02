@@ -21,6 +21,10 @@ export interface Image {
 export type SubmitSearchBar = (value: string) => void;
 export type OpenModal = (regular: string, alt: string) => void;
 export type CloseModal = () => void;
+export type Response = {
+  results: Image[];
+  total_pages: number;
+};
 
 function App() {
   const [images, setImages] = useState<Image[]>([]);
@@ -42,7 +46,7 @@ function App() {
       setError(null);
       setIsEmpty(false);
       try {
-        const { results, total_pages } = await getImages(query, page);
+        const { results, total_pages }: Response = await getImages(query, page);
 
         if (!results.length) {
           return setIsEmpty(true);
