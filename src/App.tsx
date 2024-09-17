@@ -8,17 +8,31 @@ import { Container } from "./components/Container/Container";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import { ImageModal } from "./components/ImageModal/ImageModal";
 
+export interface Image {
+  id: number;
+  src: string;
+  urls: {
+    small: string;
+    regular: string;
+  };
+  description: string;
+}
+
+export type SubmitSearchBar = (value: string) => void;
+export type OpenModal = (regular: string, alt: string) => void;
+export type CloseModal = () => void;
+
 function App() {
-  const [images, setImages] = useState([]);
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [isEmpty, setIsEmpty] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [modalUrl, setModalUrl] = useState("");
-  const [modalAlt, setModalAlt] = useState("");
+  const [images, setImages] = useState<Image[]>([]);
+  const [query, setQuery] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<unknown | null>(null);
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [modalUrl, setModalUrl] = useState<string>("");
+  const [modalAlt, setModalAlt] = useState<string>("");
 
   useEffect(() => {
     if (!query) return;
@@ -45,7 +59,7 @@ function App() {
     fetchImages();
   }, [page, query]);
 
-  const handleSubmit = (value) => {
+  const handleSubmit: SubmitSearchBar = (value) => {
     setQuery(value);
     setImages([]);
     setPage(1);
@@ -55,9 +69,9 @@ function App() {
     setPage((prevPage) => prevPage + 1);
   };
 
-  const openModal = (url, alt) => {
+  const openModal: OpenModal = (regular, alt) => {
     setIsOpen(true);
-    setModalUrl(url);
+    setModalUrl(regular);
     setModalAlt(alt);
   };
 
@@ -72,18 +86,20 @@ function App() {
       <SearchBar onSubmit={handleSubmit} />
       <Section>
         <Container>
-          {images.length > 0 && (
-            <ImageGallery images={images} openModal={openModal} />
-          )}
-          {isVisible && (
-            <LoadMoreBtn onClick={lodeMore} disabled={isLoading}>
-              {isLoading ? "Loading" : "Load more"}{" "}
-            </LoadMoreBtn>
-          )}
-          {!images.length && isEmpty && <span>sorry </span>}
-          {isLoading && <Loader />}
-          {error && <span>error</span>}
-          {isEmpty && <span>no images</span>}
+          <>
+            {images.length > 0 && (
+              <ImageGallery images={images} openModal={openModal} />
+            )}
+            {isVisible && (
+              <LoadMoreBtn onClick={lodeMore} disabled={isLoading}>
+                <>{isLoading ? "Loading" : "Load more"}</>
+              </LoadMoreBtn>
+            )}
+            {!images.length && isEmpty && <span>sorry </span>}
+            {isLoading && <Loader />}
+            {error && <span>error</span>}
+            {isEmpty && <span>no images</span>}
+          </>
         </Container>
       </Section>
       <ImageModal

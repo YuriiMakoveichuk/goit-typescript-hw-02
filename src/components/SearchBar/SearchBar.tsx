@@ -1,17 +1,22 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { TbPhotoSearch } from "react-icons/tb";
 
 import css from "./SearchBar.module.css";
+import { SubmitSearchBar } from "../../App";
 
-const SearchBar = ({ onSubmit }) => {
-  const [query, setQuery] = useState("");
+type Props = {
+  onSubmit: SubmitSearchBar;
+};
 
-  const handleChange = (e) => {
+const SearchBar = ({ onSubmit }: Props) => {
+  const [query, setQuery] = useState<string>("");
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!query.trim()) {
       return toast.success("Please enter what you want to find");

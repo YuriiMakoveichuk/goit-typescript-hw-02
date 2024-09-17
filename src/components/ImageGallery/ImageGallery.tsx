@@ -1,19 +1,28 @@
+import { Image, OpenModal } from "../../App";
 import ImageCard from "../ImageCard/ImageCard";
 
 import css from "./ImageGallery.module.css";
 
-const ImageGallery = ({ images, openModal }) => {
+type Props = {
+  images: Image[];
+  openModal: OpenModal;
+};
+
+const ImageGallery = ({ images, openModal }: Props) => {
   return (
     <ul className={css.list}>
-      {images.map(({ id, urls, alt_description }) => (
-        <li key={id} className={css.item}>
-          <ImageCard
-            urls={urls}
-            alt_description={alt_description}
-            openModal={openModal}
-          />
-        </li>
-      ))}
+      <>
+        {images.map(({ id, description, urls: { small, regular } }) => (
+          <li key={id} className={css.item}>
+            <ImageCard
+              small={small}
+              regular={regular}
+              description={description}
+              openModal={openModal}
+            />
+          </li>
+        ))}
+      </>
     </ul>
   );
 };

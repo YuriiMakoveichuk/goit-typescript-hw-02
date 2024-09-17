@@ -1,5 +1,9 @@
 import css from "./Section.module.css";
 
-export const Section = ({ children }) => {
+interface Props {
+  children: React.ReactElement;
+}
+
+export const Section = ({ children }: Props) => {
   return <section className={css.section}>{children}</section>;
 };

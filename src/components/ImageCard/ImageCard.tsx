@@ -1,12 +1,20 @@
+import { OpenModal } from "../../App";
 import css from "./ImageCard.module.css";
 
-const ImageCard = ({ urls, alt_description, openModal }) => {
+type Props = {
+  small: string;
+  regular: string;
+  description: string;
+  openModal: OpenModal;
+};
+
+const ImageCard = ({ small, regular, description, openModal }: Props) => {
   return (
     <div className={css.box}>
       <img
-        src={urls.small}
-        alt={alt_description}
-        onClick={() => openModal(urls.regular, alt_description)}
+        src={small}
+        alt={description}
+        onClick={() => openModal(regular, description)}
       />
     </div>
   );
